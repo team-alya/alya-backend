@@ -1,5 +1,4 @@
-Backend written in python for Älyä hanke.
-
+Backend for Älyä hanke project
 # Start
 While in the root folder arvolaskuri, type "python manage.py runserver" to your command line to start the development server at http://127.0.0.1:8000/
 
@@ -27,6 +26,13 @@ POST http://127.0.0.1:8000/sendpic
 If the picture is succesfully sent, the response body should say: "message": "I have received your picture, thanks"
 If theres an error with the photo the server will respond with: "message": "I have you know that this endpoint only accepts Base64 pictures"
 
+# Technologies
+- Python
+- Google Vertex AI
+- Google vision API
+
+# Dependencies
+- We used Django and it's Rest framework as our web framework.
 
 
 
