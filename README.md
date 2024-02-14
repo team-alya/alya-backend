@@ -1,7 +1,7 @@
 Backend written in python for Älyä hanke.
 
 # Start
-While in the root folder arvolaskuri, type "python manage.py runserver", to start the development server at http://127.0.0.1:8000/
+While in the root folder arvolaskuri, type "python manage.py runserver" to your command line to start the development server at http://127.0.0.1:8000/
 
 # API endpoints
 the frontpage.
