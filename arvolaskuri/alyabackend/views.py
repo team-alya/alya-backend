@@ -1,11 +1,12 @@
+import io
+from io import BytesIO
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.shortcuts import render
-from alyabackend.serializers import PictureSerializer
+from alyabackend.serializers import  PictureSerializer
 from rest_framework.views import APIView
 from .prediction import label_detection
 from PIL import Image 
-import PIL 
+from alyabackend.models import Instruction
 import io
 
 def test(request):
@@ -15,17 +16,9 @@ def test(request):
 # Example usage in the Frontpage APIView
 class Frontpage(APIView):
     def get(self, request, *args, **kwargs):
-        # Replace the image_path with the actual path to the image file
-        image_path = 'C:\\Users\\arina\\Alya\\tuoli.jpg'
-
-        # Read the content of the image file
-        with open(image_path, 'rb') as file:
-            image_content = file.read()
-
-        # Pass the content to label_detection function
-        result = label_detection(io.BytesIO(image_content))
-        
-        return JsonResponse(result)
+        #Getting instructions from database
+        response = Instruction.objects.values("instruction_text").get(pk=1)
+        return JsonResponse(response)
 
 
 #Handling pictures send to backend

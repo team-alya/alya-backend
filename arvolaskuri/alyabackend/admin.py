@@ -1,3 +1,5 @@
 from django.contrib import admin
+from alyabackend.models import DBPicture, Instruction
 
-# Register your models here.
+admin.site.register(DBPicture)
+admin.site.register(Instruction)
