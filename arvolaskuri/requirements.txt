@@ -1,4 +1,9 @@
 # pip install -r requirements.txt
+# pip install pillow
+# pip install --upgrade --user google-cloud-aiplatform
+# pip install google-cloud-vision  
+# gcloud auth application-default login
+
 Django==5.0.2
 djangorestframework==3.14.0
 drf-extra-fields==3.7.0
