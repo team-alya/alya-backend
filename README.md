@@ -28,8 +28,12 @@ POST http://127.0.0.1:8000/sendpic
 
 
 
-If the picture is succesfully sent, the response body should say: "message": "I have received your picture, thanks"
+If the picture is succesfully sent, the response body should given an paragraph about the piece of furniture submitted including some information and a price estimate.
+Remember to login with gcloud auth login, and set the credentials file $env:GOOGLE_APPLICATION_CREDENTIALS="C:\Users\User\*\perceptive-arc-414309-8622811c3b44.json"
+OR comment out the google vision services in alyabackend/prediction.py
 If theres an error with the photo the server will respond with: "message": "I have you know that this endpoint only accepts Base64 pictures"
+
+
 
 # Technologies
 - Python
