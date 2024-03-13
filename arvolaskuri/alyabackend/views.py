@@ -26,12 +26,23 @@ class ReceivePic(APIView):
     
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
-            #Creating serializer instance
+            #Creating serializer instance4
+            
+            furnitureDict = {
+                "brand": request.data["brand"],
+                "material": request.data["material"],
+                "condition":request.data["condition"],
+                "model": request.data["model"],
+                "priceWhenNew": request.data["priceWhenNew"],
+                "age": request.data["age"]
+            }
+
+
             serializer = PictureSerializer(data=request.data)
             if serializer.is_valid():
                 picture = serializer.validated_data["picture"]
 
-                result = label_detection(picture)
+                result = label_detection(picture,furnitureDict)
                 message = result
                 
             else:
@@ -40,4 +51,6 @@ class ReceivePic(APIView):
                 message = result
                # message = "I have you know that this endpoint only accepts Base64 pictures"
         return JsonResponse({"message" : message})
+    
+#Handling form data
 
