@@ -4,7 +4,7 @@ from alyabackend import views
 
 
 urlpatterns = [
-    path('', views.Frontpage.as_view(), name="test"),
+    path('instructions', views.InstructionsJson.as_view(), name="instructions"),
     path('sendpic', views.ReceivePic.as_view(), name='picture'),
 
 ]
