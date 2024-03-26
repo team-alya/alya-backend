@@ -1,6 +1,11 @@
 Backend for Älyä hanke project
 # Start
-While in the root folder arvolaskuri, type "python manage.py runserver" to your command line to start the development server at http://127.0.0.1:8000/
+After cloning the repo, run these commands in the root folder
+```
+cd arvolaskuri
+python manage.py runserver
+```
+The terminal should inform you of a server at http://127.0.0.1:8000/
 
 # API endpoints
 the frontpage.
