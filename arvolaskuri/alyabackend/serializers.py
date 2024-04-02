@@ -1,12 +1,6 @@
 from rest_framework import serializers
 from drf_extra_fields.fields import Base64ImageField
-from .models import Instruction, DBPicture
-
-#Serializer for database pictures
-class DBPictureSerializer(serializers.Serializer):
-   class Meta:
-       model = DBPicture
-       fields = ["id", "dbpicture_title","dbpicture"]
+from .models import Instruction
 
 
 #Serializer for Instructions in database
