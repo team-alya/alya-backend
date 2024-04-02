@@ -6,18 +6,31 @@ from rest_framework.views import APIView
 from .prediction import label_detection
 from PIL import Image 
 from alyabackend.models import Instruction
+from alyabackend.models import DBPicture
 import io
 from alyabackend.allas_bucket import *
 
 
 
-# Example usage in the Frontpage APIView
-class Frontpage(APIView):
+# Instructions from backend
+class InstructionsJson(APIView):
     def get(self, request, *args, **kwargs):
-        #Getting instructions from database
-        response = Instruction.objects.values("instruction_text").get(pk=0)
-        return JsonResponse({"response":response})
 
+        # Fetch instruction data
+        instructions = Instruction.objects.all().values()
+        instructions_list = list(instructions)
+        
+        # Fetch picture data
+        pictures = DBPicture.objects.all()
+        picture_data = [{'title': picture.dbpicture_title, 'image_url': picture.dbpicture.url} for picture in pictures]
+        
+        # Combine instructions and picture data
+        response_data = {
+            'instructions': instructions_list,
+            'pictures': picture_data
+        }
+        
+        return JsonResponse(response_data, safe=False)
 
 #Handling pictures send to backend
 class ReceivePic(APIView):
