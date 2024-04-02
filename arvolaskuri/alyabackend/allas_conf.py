@@ -1,9 +1,5 @@
-from keystoneauth1 import session
-from keystoneauth1.identity import v3
 import os
 import swiftclient
-from swiftclient.multithreading import OutputManager
-from swiftclient.service import SwiftError, SwiftService, SwiftUploadObject
 from dotenv import load_dotenv
 
 

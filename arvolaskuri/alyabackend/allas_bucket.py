@@ -24,4 +24,3 @@ def store_image(image, brand, model):
     except SwiftError as error:
         print(error)
 
-

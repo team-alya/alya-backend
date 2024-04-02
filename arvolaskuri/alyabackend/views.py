@@ -6,10 +6,9 @@ from rest_framework.views import APIView
 from .prediction import label_detection
 from PIL import Image 
 from alyabackend.models import Instruction
-from alyabackend.models import DBPicture
 import io
 from alyabackend.allas_bucket import *
-
+from alyabackend.models import DBPicture
 
 
 # Instructions from backend
