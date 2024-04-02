@@ -44,6 +44,8 @@ def label_detection(uploaded_file, furnitureDict):
     image_part = Part.from_image(VertexImage.from_bytes(image_content))
 
     def vertex_prompt_formatter(prompt):
+        summary = ""
+        """"
         summary = "Description of the piece of furniture in the photo:\n\n"
         if "brand" in furnitureDict and furnitureDict["brand"]:
             summary += f"The maker of the furniture is {furnitureDict['brand']}"
@@ -63,10 +65,10 @@ def label_detection(uploaded_file, furnitureDict):
         
         if "age" in furnitureDict and furnitureDict["age"]:
             summary += f"It's {furnitureDict['age']} years old. "
-        
-        summary += """\n\nGive me only a price estimate for my piece of furniture, in the second-hand market based on this description and the photo. 
-        Pay close attention to the brand and model.
-        The second-hand market is based in Finland and the price should match prices of similar items in finnish web-marketplaces"""
+        """
+        summary += """Based on this photo alone you need to determine which type of furniture it is, its model, its brand
+        its colour, its approximate dimensions and its condition. Additionally give me an price estimate for the furniture.
+        the furniture is to be sold in finland. Give me the response in a JSON format that is usable in react ."""
     
         return summary
 
