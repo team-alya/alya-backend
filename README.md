@@ -5,6 +5,13 @@ After cloning the repo, run these commands in the root folder
 cd arvolaskuri
 python manage.py runserver
 ```
+(If youre planning on accessing the backend through on an android emulator on windows, run this instead
+```
+cd arvolaskuri
+python manage.py runserver 0.0.0.0:8000
+```
+and replace 127.0.0.0:8000 with 0.0.0.0:8000 from now on.)
+
 The terminal should inform you of a server at http://127.0.0.1:8000/
 
 # API endpoints
