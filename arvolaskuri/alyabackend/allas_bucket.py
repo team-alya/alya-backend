@@ -3,24 +3,35 @@ from alyabackend.allas_conf import conn
 from swiftclient.service import SwiftError
 from dotenv import load_dotenv
 import os
+import uuid
 
 
 load_dotenv()
 bucket_name = os.getenv("ALLAS_BUCKET_NAME")
-date = datetime.datetime.now()
-date_time = date.strftime("%H.%M %d.%m.%Y")
 
 
 #Adding image to object store
-def store_image(image, brand, model):
-    #Checking for empty fields
-    if not brand:
-        brand = "Unkonwn brand"
-    if not model:
-        model = "Unkonwn model"
-    #Adding image to object store
+def store_image(image):
     try:
-        conn.put_object(bucket_name, f"{brand} {model} {date_time}.jpg", contents=image, content_type="image")
+        #Calling name_image function
+        name = name_image()
+        conn.put_object(bucket_name, f"{name}.jpg", contents=image, content_type="image")
+        return name
     except SwiftError as error:
         print(error)
 
+
+#Getting image from object store
+def get_image(name):
+    try:
+        allas_name = f"{name}.jpg"
+        allas_image = conn.get_object(bucket_name, allas_name)
+        return allas_image
+    except SwiftError as error:
+        print(error)
+
+
+#Naming image with UUID4
+def name_image():
+    image_name = uuid.uuid4()
+    return image_name

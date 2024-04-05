@@ -1,12 +1,8 @@
-from io import BytesIO
-from django.shortcuts import render
 from django.http import JsonResponse
 from alyabackend.serializers import  PictureSerializer
 from rest_framework.views import APIView
-from .prediction import label_detection
-from PIL import Image 
+from .prediction import label_detection 
 from alyabackend.models import Instruction
-import io
 from alyabackend.allas_bucket import *
 from alyabackend.models import DBPicture
 
@@ -31,6 +27,7 @@ class InstructionsJson(APIView):
         
         return JsonResponse(response_data, safe=False)
 
+
 #Handling pictures send to backend
 class ReceivePic(APIView):
     
@@ -47,15 +44,15 @@ class ReceivePic(APIView):
             #Creating serializer instances. Pointing to an serializer consumes the image,
             #so we need two serializers.
             serializerForVertex = PictureSerializer(data=request.data)
-            serializerForPouta = PictureSerializer(data=request.data)
-            if serializerForVertex.is_valid()& serializerForPouta.is_valid():
+            serializerForAllas = PictureSerializer(data=request.data)
+            if serializerForVertex.is_valid()& serializerForAllas.is_valid():
             
-                pictureForPouta = serializerForPouta.validated_data["picture"]
+                pictureForAllas = serializerForAllas.validated_data["picture"]
                 pictureForVertex= serializerForVertex.validated_data["picture"]
                 
-                #This sends the picture to Pouta
+                #This sends the picture to Allas and receives name of the image
                 #This also consumes the serialized image, and it cannot be used further
-                store_image(pictureForPouta, request.data["brand"], request.data["model"])
+                image_name = store_image(pictureForAllas)
                 
                 #This sends the image to Vertex and consumes the image.
                 result = label_detection(pictureForVertex,furnitureDict)
@@ -64,7 +61,7 @@ class ReceivePic(APIView):
                 uploaded_file = request.FILES.get('picture')
                 result = label_detection(uploaded_file)
                 message = result
-                store_image(picture, request.data["brand"], request.data["model"])
+                image_name = store_image(pictureForAllas)
         return JsonResponse({"message" : message})
     
 
