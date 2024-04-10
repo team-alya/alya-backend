@@ -9,6 +9,10 @@ from PIL import Image
 from alyabackend.models import Instruction
 from alyabackend.models import DBPicture
 import io
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .prices import price_detection
+import json
 
 def test(request):
     return render(request, "test.html")
@@ -67,3 +71,27 @@ class ReceivePic(APIView):
     
 #Handling form data
 
+
+class AskPrice(APIView):
+
+    def post(self, request, *args, **kwargs):
+        filled_form = {
+            "brand": request.data.get("brand"),
+            "material": request.data.get("material"),
+            "condition": request.data.get("condition"),
+            "model": request.data.get("model"),
+            "priceWhenNew": request.data.get("priceWhenNew"),
+            "age": request.data.get("age")
+        }
+
+        serializer = PictureSerializer(data=request.data)
+        if serializer.is_valid():
+            picture = serializer.validated_data["picture"]
+            
+            try:
+                result = price_detection(picture, filled_form)
+                return JsonResponse(result)
+            except Exception as e:
+                return JsonResponse({"error": str(e)}, status=500)
+        else:
+            return JsonResponse({"error": "Picture serialization failed."}, status=400)
