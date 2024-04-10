@@ -1,12 +1,9 @@
-import io
-from io import BytesIO
-from django.shortcuts import render
 from django.http import JsonResponse
 from alyabackend.serializers import  PictureSerializer
 from rest_framework.views import APIView
-from .prediction import label_detection
-from PIL import Image 
+from .prediction import label_detection 
 from alyabackend.models import Instruction
+from alyabackend.allas_bucket import *
 from alyabackend.models import DBPicture
 import io
 from rest_framework.response import Response
@@ -38,13 +35,12 @@ class InstructionsJson(APIView):
         
         return JsonResponse(response_data, safe=False)
 
+
 #Handling pictures send to backend
 class ReceivePic(APIView):
     
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
-            #Creating serializer instance4
-            
             furnitureDict = {
                 "brand": request.data["brand"],
                 "material": request.data["material"],
@@ -53,23 +49,30 @@ class ReceivePic(APIView):
                 "priceWhenNew": request.data["priceWhenNew"],
                 "age": request.data["age"]
             }
-
-
-            serializer = PictureSerializer(data=request.data)
-            if serializer.is_valid():
-                picture = serializer.validated_data["picture"]
-
-                result = label_detection(picture,furnitureDict)
-                message = result
+            #Creating serializer instances. Pointing to an serializer consumes the image,
+            #so we need two serializers.
+            serializerForVertex = PictureSerializer(data=request.data)
+            serializerForAllas = PictureSerializer(data=request.data)
+            if serializerForVertex.is_valid()& serializerForAllas.is_valid():
+            
+                pictureForAllas = serializerForAllas.validated_data["picture"]
+                pictureForVertex= serializerForVertex.validated_data["picture"]
                 
+                #This sends the picture to Allas and receives name of the image
+                #This also consumes the serialized image, and it cannot be used further
+                image_name = store_image(pictureForAllas)
+                
+                #This sends the image to Vertex and consumes the image.
+                result = label_detection(pictureForVertex,furnitureDict)
+                message = result
             else:
                 uploaded_file = request.FILES.get('picture')
                 result = label_detection(uploaded_file)
                 message = result
-               # message = "I have you know that this endpoint only accepts Base64 pictures"
+                image_name = store_image(pictureForAllas)
         return JsonResponse({"message" : message})
     
-#Handling form data
+
 
 
 class AskPrice(APIView):
