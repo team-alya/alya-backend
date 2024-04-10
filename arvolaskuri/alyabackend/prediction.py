@@ -6,6 +6,7 @@ import vertexai
 import base64
 from alyabackend.serializers import PictureSerializer
 import io
+import json
 
 
 def label_detection(uploaded_file, furnitureDict):
@@ -67,9 +68,10 @@ def label_detection(uploaded_file, furnitureDict):
             summary += f"It's {furnitureDict['age']} years old. "
         """
         summary += """Based on this photo alone you need to determine which type of furniture it is, its model, its brand
-        its colour, its approximate dimensions and its condition. Additionally give me an price estimate for the furniture.
-        the furniture is to be sold in finland. Give me the response in a JSON format that is usable in react ."""
-    
+        its colour, its approximate dimensions and its condition all as a string. ALSO give me an price estimate for the furniture.
+        the furniture is to be sold in finland. The response needs to be in application/json format, as it will be sent over a server."""
+        #converted_json = convert_to_json(json_string)
+        #print(converted_json)
         return summary
 
 
@@ -93,8 +95,12 @@ def label_detection(uploaded_file, furnitureDict):
         'vertex_answer': vertex_labels,
     }
 
-    
+    def convert_to_json(json_string):
+        # Parse the JSON string into a Python dictionary
+        data = json.loads(json_string)
+        # Return the dictionary as JSON string
+        return json.dumps(data)
 
     print(vertex_prompt_formatter(furnitureDict))
-
+    print(result_combined.get('vertex_answer'))
     return result_combined
