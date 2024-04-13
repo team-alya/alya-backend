@@ -21,7 +21,7 @@ def price_detection(saved_pic, filled_form):
     client = vision.ImageAnnotatorClient()
     response_vision = client.label_detection(image=image_vision)
     labels = response_vision.label_annotations
-    print(f"Furniture dict: {filled_form}")
+    # print(f"Furniture dict: {filled_form}")
     # Process Google Cloud Vision API response
     vision_labels = []
     for label in labels:
@@ -84,7 +84,7 @@ def price_detection(saved_pic, filled_form):
             if hasattr(candidate.content, 'parts'):
                 for part in candidate.content.parts:
                     if hasattr(part, 'text'):
-                        print(f"Part text: {part.text}")
+                        # print(f"Part text: {part.text}")
                         try:
                             return json.loads(part.text)
                         except:

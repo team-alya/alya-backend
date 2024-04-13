@@ -60,7 +60,7 @@ class ReceivePic(APIView):
                 
                 #This sends the picture to Allas and receives name of the image
                 #This also consumes the serialized image, and it cannot be used further
-                image_name = store_image(pictureForAllas)
+                # image_name = store_image(pictureForAllas)
                 
                 #This sends the image to Vertex and consumes the image.
                 result = label_detection(pictureForVertex,furnitureDict)
@@ -69,7 +69,7 @@ class ReceivePic(APIView):
                 uploaded_file = request.FILES.get('picture')
                 result = label_detection(uploaded_file)
                 message = result
-                image_name = store_image(pictureForAllas)
+                # image_name = store_image(pictureForAllas)
         return JsonResponse({"message" : message})
     
 

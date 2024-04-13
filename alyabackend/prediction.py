@@ -23,7 +23,7 @@ def label_detection(uploaded_file, furnitureDict):
     client = vision.ImageAnnotatorClient()
     response_vision = client.label_detection(image=image_vision)
     labels = response_vision.label_annotations
-    print(f"Furniture dict: {furnitureDict}")
+    # print(f"Furniture dict: {furnitureDict}")
     # Process Google Cloud Vision API response
     vision_labels = []
     for label in labels:
@@ -77,7 +77,7 @@ def label_detection(uploaded_file, furnitureDict):
 
     # Use the created Part in generate_content
     response_vertex = generative_multimodal_model.generate_content(["Heres a photo of my piece of furniture:",image_part, vertex_prompt_formatter(furnitureDict)])
-
+    print(response_vertex)
         # Vertex AI response
     vertex_labels = []
     if hasattr(response_vertex, 'candidates'):

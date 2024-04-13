@@ -1,18 +1,19 @@
 Backend for Älyä hanke project
 # Start
+<<<<<<< HEAD
+<<<<<<< HEAD
+While in the root folder arvolaskuri, type "python manage.py runserver" to your command line to start the development server at http://127.0.0.1:8000/
+=======
 After cloning the repo, run these commands in the root folder
 ```
 cd arvolaskuri
 python manage.py runserver
 ```
-(If youre planning on accessing the backend through on an android emulator on windows, run this instead
-```
-cd arvolaskuri
-python manage.py runserver 0.0.0.0:8000
-```
-and replace 127.0.0.0:8000 with 0.0.0.0:8000 from now on.)
-
 The terminal should inform you of a server at http://127.0.0.1:8000/
+>>>>>>> 37008e890ae0f89eb5d6c7448f3cb29b5bc4336b
+=======
+While in the root folder arvolaskuri, type "python manage.py runserver" to your command line to start the development server at http://127.0.0.1:8000/
+>>>>>>> 37008e890ae0f89eb5d6c7448f3cb29b5bc4336b
 
 # API endpoints
 the frontpage.
@@ -29,6 +30,21 @@ POST http://127.0.0.1:8000/sendpic
 2. Select the method to POST and enter http://127.0.0.1:8000/sendpic as the url
 3. Click on the Body tab
 4. Select the form-data radio button. A view with inputs for key and value is shown on the screen now.
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 37008e890ae0f89eb5d6c7448f3cb29b5bc4336b
+5. Under the Key-input, write "picture"
+6. Under the Value-input, paste your base64 image file. Example pic below. Then click the Send-button.
+   
+![Näyttökuva (62)](https://github.com/team-alya/alya-backend/assets/95426094/5d14b8f6-e7ea-424f-b993-e6597a83b42c)
+
+
+If the picture is succesfully sent, the response body should say: "message": "I have received your picture, thanks"
+If theres an error with the photo the server will respond with: "message": "I have you know that this endpoint only accepts Base64 pictures"
+
+<<<<<<< HEAD
+=======
 5. Under the Key-input, write "picture, brand, condition, model, material, priceWhenNew, age"
 6. Under the Value-input, paste your base64 image file and other information matching to the value on the left. Example pic below. Then click the Send-button.
 7. Example below pic below 👇👇
@@ -47,6 +63,9 @@ If theres an error with the photo the server will respond with: "message": "I ha
 
 
 
+>>>>>>> 37008e890ae0f89eb5d6c7448f3cb29b5bc4336b
+=======
+>>>>>>> 37008e890ae0f89eb5d6c7448f3cb29b5bc4336b
 # Technologies
 - Python
 - Google Vertex AI
