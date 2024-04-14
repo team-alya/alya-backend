@@ -52,7 +52,6 @@ def price_detection(saved_pic, filled_form):
     In description field explain on which criteria you gave estimated price.
     Provide this information in JSON string format which stays same format all requests."""
 
-    # Use the created Part in generate_content
     response_vertex = generative_multimodal_model.generate_content(
         [
             "Heres a photo of my piece of furniture:",
@@ -61,29 +60,12 @@ def price_detection(saved_pic, filled_form):
         ]
     )
 
-    print(response_vertex)
-
-    vertex_labels = []
-    if hasattr(response_vertex, "candidates"):
-        for candidate in response_vertex.candidates:
-            if hasattr(candidate.content, "parts"):
-                for part in candidate.content.parts:
-                    if hasattr(part, "text"):
-                        json_string = part.text.strip(" ```\n")
-                        json_string = json_string.replace("json\n", "", 1)
-                        json_string = json_string.replace("JSON\n", "", 1)
-                        print("JSON string:", json_string)
-                        data = json.loads(json_string)
-                        vertex_labels.append(
-                            {
-                                "text": data,
-                            }
-                        )
-
-    # Combine the results from Google Cloud Vision API and Vertex AI
-    result_combined = {
-        "vision_labels": vision_labels,
-        "vertex_answer": vertex_labels,
-    }
-
-    return result_combined
+    # Process the response from Vertex AI
+    result = (
+        response_vertex.candidates[0]
+        .content.parts[0]
+        .text.strip(" ```\n")
+        .replace("json\n", "", 1)
+        .replace("JSON\n", "", 1)
+    )
+    return json.loads(result)
