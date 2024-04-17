@@ -6,6 +6,7 @@ from vertexai.preview.generative_models import (
 )
 import vertexai
 import json
+import uuid
 
 
 def label_detection(uploaded_file):
@@ -42,17 +43,21 @@ def label_detection(uploaded_file):
     # Convert the image content to base64-encoded string
     image_part = Part.from_image(VertexImage.from_bytes(image_content))
 
+    request_id = uuid.uuid4()
+
     # Prompt text for the Vertex AI
-    prompt = """ your task is to determine the following attributes of the furniture pieace in the photo: 
-        type, brand, model, color, approximate dimensions (length, width and height) in cm 
+    prompt = f"""
+        Request ID: {request_id}\n\n
+        Your task is to determine the following attributes of the furniture pieace in the photo: 
+        type, brand, model, color, approximate dimensions (length, width and height as an object) in cm 
         (don't include cm in dimensions), and condition (they values should start with a capital letter but they not). 
         Brand and model are very important, so please make sure to include them in your answer. 
-        Provide this information in JSON string format which stays same format all requests.
+        Provide this information in JSON string format which stays same format all requests. 
+        Include request_id in your response as a first field.
         """
 
     response_vertex = generative_multimodal_model.generate_content(
         [
-            "Based solely on this photo ",
             image_part,
             prompt,
         ]
@@ -66,4 +71,6 @@ def label_detection(uploaded_file):
         .replace("json\n", "", 1)
         .replace("JSON\n", "", 1)
     )
-    return json.loads(result)
+    response = json.loads(result)
+    print(response)
+    return response

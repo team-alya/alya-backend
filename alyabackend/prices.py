@@ -68,4 +68,6 @@ def price_detection(saved_pic, filled_form):
         .replace("json\n", "", 1)
         .replace("JSON\n", "", 1)
     )
-    return json.loads(result)
+    response = json.loads(result)
+    print(response)
+    return response
