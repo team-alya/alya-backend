@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from google.cloud import vision_v1p3beta1 as vision
 from vertexai.preview.generative_models import (
     GenerativeModel,
@@ -5,8 +6,15 @@ from vertexai.preview.generative_models import (
     Image as VertexImage,
 )
 import vertexai
+import logging
 import json
 import uuid
+
+# Initialize the logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+logger.addHandler(handler)
 
 
 def label_detection(uploaded_file):
@@ -56,21 +64,32 @@ def label_detection(uploaded_file):
         Include request_id in your response as a first field.
         """
 
-    response_vertex = generative_multimodal_model.generate_content(
-        [
-            image_part,
-            prompt,
-        ]
-    )
-
     # Process the response from Vertex AI
-    result = (
-        response_vertex.candidates[0]
-        .content.parts[0]
-        .text.strip(" ```\n")
-        .replace("json\n", "", 1)
-        .replace("JSON\n", "", 1)
-    )
-    response = json.loads(result)
-    print(response)
-    return response
+
+    try:
+        response_vertex = generative_multimodal_model.generate_content(
+            [
+                image_part,
+                prompt,
+            ]
+        )
+        result = (
+            response_vertex.candidates[0]
+            .content.parts[0]
+            .text.strip(" ```\n")
+            .replace("json\n", "", 1)
+            .replace("JSON\n", "", 1)
+        )
+        response = json.loads(result)
+        # Check if any field is empty or None
+        for key, value in response.items():
+            if not value:
+                response[key] = "Unknown"
+        logger.info(response)
+        return response
+    except json.JSONDecodeError as e:
+        logger.error(f"An error occurred while decoding JSON: {str(e)}")
+        return "An error occurred while decoding JSON."
+    except Exception as e:
+        logger.error(f"An unexpected error occurred: {str(e)}")
+        return "An unexpected error occurred."

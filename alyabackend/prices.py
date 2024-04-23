@@ -5,7 +5,14 @@ from vertexai.preview.generative_models import (
     Image as VertexImage,
 )
 import vertexai
+import logging
 import json
+
+# Initialize the logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+logger.addHandler(handler)
 
 
 def price_detection(saved_pic, filled_form):
@@ -52,22 +59,53 @@ def price_detection(saved_pic, filled_form):
     In description field explain on which criteria you gave estimated price.
     Provide this information in JSON string format which stays same format all requests."""
 
-    response_vertex = generative_multimodal_model.generate_content(
-        [
-            "Heres a photo of my piece of furniture:",
-            image_part,
-            prompt,
-        ]
-    )
+    try:
+        # Generate content using the Gemini model
+        response_vertex = generative_multimodal_model.generate_content(
+            [
+                "Heres a photo of my piece of furniture:",
+                image_part,
+                prompt,
+            ]
+        )
+        # Process the response from Vertex AI
+        result = (
+            response_vertex.candidates[0]
+            .content.parts[0]
+            .text.strip(" ```\n")
+            .replace("json\n", "", 1)
+            .replace("JSON\n", "", 1)
+        )
 
-    # Process the response from Vertex AI
-    result = (
-        response_vertex.candidates[0]
-        .content.parts[0]
-        .text.strip(" ```\n")
-        .replace("json\n", "", 1)
-        .replace("JSON\n", "", 1)
-    )
-    response = json.loads(result)
-    print(response)
-    return response
+        # Convert the result to a dictionary
+        response = json.loads(result)
+
+        # Check if dimensions is in the right form
+        if "dimensions" in response:
+            dimensions = response["dimensions"]
+            if not isinstance(dimensions, dict) or not {
+                "length",
+                "width",
+                "height",
+            }.issubset(dimensions.keys()):
+                logger.error("Invalid dimensions format.")
+                # Replace with default dimensions
+                response["dimensions"] = {"length": 0, "width": 0, "height": 0}
+
+        # Check if any field is empty or None
+        for key, value in response.items():
+            if not value:
+                response[key] = "Unknown"
+
+        # Log the response
+        logger.info(response)
+        # Return the response
+        return response
+    
+    # Handle exceptions
+    except json.JSONDecodeError as e:
+        logger.error(f"An error occurred while decoding JSON: {str(e)}")
+        return "An error occurred while decoding JSON."
+    except Exception as e:
+        logger.error(f"An unexpected error occurred: {str(e)}")
+        return "An unexpected error occurred."
