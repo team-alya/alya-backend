@@ -4,5 +4,8 @@ WORKDIR /alyabackend
 COPY requirements.txt /alyabackend
 RUN pip3 install -r requirements.txt --no-cache-dir --timeout=1000
 COPY . /alyabackend/ 
-ENTRYPOINT ["python3"] 
-CMD ["manage.py", "runserver", "0.0.0.0:8000"] 
+RUN chmod +x start.sh
+RUN useradd arvolaskuri
+RUN chown -R arvolaskuri:arvolaskuri /alyabackend/
+USER arvolaskuri:arvolaskuri 
+ENTRYPOINT ["/alyabackend/start.sh"] 

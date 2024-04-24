@@ -101,11 +101,11 @@ def price_detection(saved_pic, filled_form):
         logger.info(response)
         # Return the response
         return response
-    
+
     # Handle exceptions
     except json.JSONDecodeError as e:
         logger.error(f"An error occurred while decoding JSON: {str(e)}")
-        return "An error occurred while decoding JSON."
+        return {"error": "An error occurred while decoding JSON."}
     except Exception as e:
         logger.error(f"An unexpected error occurred: {str(e)}")
-        return "An unexpected error occurred."
+        return {"error": "An unexpected error occurred."}
