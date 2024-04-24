@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from google.cloud import vision_v1p3beta1 as vision
 from vertexai.preview.generative_models import (
     GenerativeModel,
@@ -89,7 +88,7 @@ def label_detection(uploaded_file):
         return response
     except json.JSONDecodeError as e:
         logger.error(f"An error occurred while decoding JSON: {str(e)}")
-        return "An error occurred while decoding JSON."
+        return {"error": "An error occurred while decoding JSON."}
     except Exception as e:
         logger.error(f"An unexpected error occurred: {str(e)}")
-        return "An unexpected error occurred."
+        return {"error": "An unexpected error occurred."}
