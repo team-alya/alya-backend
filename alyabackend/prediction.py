@@ -58,10 +58,10 @@ def label_detection(uploaded_file):
         Request ID: {request_id}\n\n
         Your task is to determine the following attributes of the furniture pieace in the photo: 
         type, brand, model, color, approximate dimensions (length, width and height as an object) in cm 
-        (don't include cm in dimensions), and condition (they values should start with a capital letter but they not). 
+        (don't include cm in dimensions), age in number and condition (they values should start with a capital letter but they not). 
         Brand and model are very important, so please make sure to include them in your answer. 
         Provide this information in JSON string format which stays same format all requests. 
-        Include request_id in your response as a first field.
+        Include request_id in your response as a first field. If on the picture is not furniture, return an error message.
         """
 
     # Process the response from Vertex AI
@@ -80,16 +80,19 @@ def label_detection(uploaded_file):
             .replace("json\n", "", 1)
             .replace("JSON\n", "", 1)
         )
-        response = json.loads(result)
-        # Check if any field is empty or None
-        for key, value in response.items():
-            if not value:
-                response[key] = "Unknown"
-        logger.info(response)
-        return response
-    except json.JSONDecodeError as e:
-        logger.error(f"An error occurred while decoding JSON: {str(e)}")
-        return "An error occurred while decoding JSON."
+
+        try:
+            response = json.loads(result)
+            # Check if any field is empty or None
+            for key, value in response.items():
+                if not value:
+                    response[key] = "Unknown"
+        
+            return response
+        except:
+            response = response_vertex.candidates[0].content.parts[0].text
+            return {"error":response}
+
     except Exception as e:
         logger.error(f"An unexpected error occurred: {str(e)}")
         return "An unexpected error occurred."

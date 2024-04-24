@@ -52,7 +52,7 @@ def price_detection(saved_pic, filled_form):
     prompt = f"""Description of the piece of furniture in the photo:\n\n
     The type of the furniture is {filled_form['type']}. The maker of the furniture is {filled_form['brand']} and its model is {filled_form['model']}.
     The color of the furniture is {filled_form['color']}. The approximate dimensions are {filled_form['dimensions']} in cm. 
-    The condition is {filled_form['condition']}.\n\n Give me only a price estimate for my piece of furniture, 
+    The condition is {filled_form['condition']}. The age is {filled_form['age']} \n\n Give me only a price estimate for my piece of furniture, 
     in the second-hand market based on this description and the photo. Pay close attention to the brand and model.
     The second-hand market is based in Finland and the price should match prices of similar items in finnish web-marketplaces. 
     Return 3 prices and 1 descriprion as a JSON object that has the fields highest_price, lowest_price, average_price and description.
