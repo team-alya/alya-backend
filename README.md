@@ -73,10 +73,14 @@ pip install google-cloud-vision
 3. Click on the Body tab
 4. Select the form-data radio button. A view with inputs for key and value is shown on the screen now.
 5. Under the Key-input, write "picture"
-6. Under the Value-input, paste your base64 image file. Example pic below. Then click the Send-button.
-7. If the picture is succesfully sent to AI, the response body should show JSON info about furniture on the picture.
+7. Under the Value-input, paste your base64 image file. Example pic below. Then click the Send-button.
+>![Screenshot_4](https://github.com/team-alya/alya-backend/assets/120372944/f52bf867-6eef-447a-8967-86dc120eaee0)
+
    
-![Näyttökuva (62)](https://github.com/team-alya/alya-backend/assets/95426094/5d14b8f6-e7ea-424f-b993-e6597a83b42c)
+9. If the picture is succesfully sent to AI, the response body should show JSON info about furniture on the picture.
+   
+
+>![Screenshot_1](https://github.com/team-alya/alya-backend/assets/120372944/ef243ca4-ecee-4401-98aa-2f31d3d390c0)
 
 
 
@@ -89,6 +93,7 @@ pip install google-cloud-vision
 5. Under the Key-input, write "picture, brand, condition, model, material, priceWhenNew, age"
 6. Under the Value-input, paste your base64 image file and other information matching to the value on the left. Example pic below. Then click the Send-button.
 7. If everything is succesfully sent to AI, the response body should show JSON info with price estimate for the furniture.
+>![Screenshot_2](https://github.com/team-alya/alya-backend/assets/120372944/66b8354a-1679-4812-9435-12214a36eeb4)
 
 > [!TIP]
 >  You can leave the value fields empty if there is e.g. no "brand" information, but DONT uncheck the "brand" key in the left column.
