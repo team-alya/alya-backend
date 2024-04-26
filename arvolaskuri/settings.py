@@ -9,10 +9,11 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+from dotenv import load_dotenv
 from pathlib import Path
 import os
 
+load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,12 +27,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pt6io^2l3ewlj!^^gis$bj1#s%kr#0w55^yg^!i^e8n73rihe@'
+SECRET_KEY = os.getenv("DJANGO_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1']
+ALLOWED_HOSTS = [os.getenv("URL_ADDRESS")]
 
 
 # Application definition
@@ -83,10 +84,17 @@ WSGI_APPLICATION = 'arvolaskuri.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("POSTGRESQL_USER"),
+        'PASSWORD': os.getenv("POSTGRESQL_PASSWORD"),
+        'HOST': os.getenv("POSTGRE_HOST"),
+        'PORT': os.getenv("DB_PORT"),
+
     }
+
 }
+
 
 
 # Password validation
