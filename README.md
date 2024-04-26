@@ -96,7 +96,7 @@ pip install google-cloud-vision
 >![Screenshot_2](https://github.com/team-alya/alya-backend/assets/120372944/66b8354a-1679-4812-9435-12214a36eeb4)
 
 > [!TIP]
->  You can leave the value fields empty if there is e.g. no "brand" information, but DONT uncheck the "brand" key in the left column.
+>  If there is no information available for a specific field (e.g., "brand"), you can leave the corresponding value field empty. However, do not uncheck any key (e.g., "brand") in the left column.
 
 
 
