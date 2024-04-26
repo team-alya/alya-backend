@@ -6,6 +6,7 @@ from alyabackend.models import Instruction, DBPicture
 from alyabackend.allas_bucket import *
 from .prediction import label_detection
 from .prices import price_detection
+from .repair import repairing_instructions
 
 
 # API View to return instructions and pictures
@@ -87,6 +88,40 @@ class AskPrice(APIView):
             try:
                 # Perform price detection on the picture and furniture data
                 result = price_detection(picture, filled_form)
+                # Return the result as JSON
+                return JsonResponse(result)
+            except Exception as e:
+                # If an error occurs, return the error message as JSON
+                return JsonResponse({"error": str(e)}, status=500)
+        else:
+            # If the serializer is not valid, return an error message
+            return JsonResponse({"error": "Picture serialization failed."}, status=400)
+
+
+class Repair(APIView):
+    def post(self, request, *args, **kwargs):
+        # Get the filled form data from frontend
+        filled_form = {
+            "type": request.data.get("type"),
+            "brand": request.data.get("brand"),
+            "model": request.data.get("model"),
+            "color": request.data.get("color"),
+            #"dimensions": request.data.get("dimensions"),
+            "condition": request.data.get("condition"),
+            #"material": request.data.get("material")
+        }
+
+        # Serialize the incoming picture data
+        serializer = PictureSerializer(data=request.data)
+
+        # If the serializer is valid
+        if serializer.is_valid():
+            # Get the picture data
+            picture = serializer.validated_data["picture"]
+
+            try:
+                # Perform price detection on the picture and furniture data
+                result = repairing_instructions(picture, filled_form)
                 # Return the result as JSON
                 return JsonResponse(result)
             except Exception as e:
