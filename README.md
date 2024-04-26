@@ -4,6 +4,8 @@
 - Python
 - Google Vertex AI
 - Google vision API
+- CSC Allas
+- Docker hub
 
 ## Framework
 - We used Django and it's Rest framework as our web framework.
@@ -17,6 +19,11 @@ cd arvolaskuri
 pip install -r requirements.txt
 python manage.py runserver
 ```
+The terminal should inform you of a server at http://127.0.0.1:8000/
+
+=======
+While in the root folder arvolaskuri, type "python manage.py runserver" to your command line to start the development server at http://127.0.0.1:8000/
+
 
 Use this command when you want to check the app in the Android Emulator.  <br>
 In this case the emulator server is located at http://10.0.2.2:8000/
@@ -26,6 +33,15 @@ python manage.py runserver 0.0.0.0:8000
 
 > [!NOTE]
 > All required dependencies are in **requirements.txt**  file.
+
+## Connect CSC allas
+
+1. Go to the [CSC Pouta](https://pouta.csc.fi/dashboard/project/)
+2. Log in 
+3. Click your username in top right corner
+4. Download Opestack RC File
+5. Use the credentials in RC File in your environment variables
+
 
 ## Create Vertex AI 
 
@@ -97,7 +113,3 @@ pip install google-cloud-vision
 
 > [!TIP]
 >  If there is no information available for a specific field (e.g., "brand"), you can leave the corresponding value field empty. However, do not uncheck any key (e.g., "brand") in the left column.
-
-
-
-
