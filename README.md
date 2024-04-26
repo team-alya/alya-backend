@@ -90,7 +90,7 @@ pip install google-cloud-vision
 2. Select the method to POST and enter http://127.0.0.1:8000/askprice as the url
 3. Click on the Body tab
 4. Select the form-data radio button. A view with inputs for key and value is shown on the screen now.
-5. Under the Key-input, write "picture, brand, condition, model, material, priceWhenNew, age"
+5. Under the Key-input, write "picture, brand, condition, model, age, color"
 6. Under the Value-input, paste your base64 image file and other information matching to the value on the left. Example pic below. Then click the Send-button.
 7. If everything is succesfully sent to AI, the response body should show JSON info with price estimate for the furniture.
 >![Screenshot_2](https://github.com/team-alya/alya-backend/assets/120372944/66b8354a-1679-4812-9435-12214a36eeb4)
