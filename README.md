@@ -77,6 +77,8 @@ pip install google-cloud-vision
 | GET | `/instructions` | List all instructions and example pictures from database in JSON|
 | POST | `/sendpic` | Send the picture to AI to determine the attributes of the furniture: type, brand, model, color, dimensions in centimeters, age, and condition. |
 | POST | `/askprice` | Send the picture, its attributes, and the user's comments to AI for a price estimate. |
+| POST | `/repair` | Send the picture, its attributes, and the user's comments to AI for repairing instructions. |
+
 
 
 ## Sending a picture
