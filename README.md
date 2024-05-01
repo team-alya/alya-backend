@@ -19,11 +19,6 @@ cd arvolaskuri
 pip install -r requirements.txt
 python manage.py runserver
 ```
-The terminal should inform you of a server at http://127.0.0.1:8000/
-
-=======
-While in the root folder arvolaskuri, type "python manage.py runserver" to your command line to start the development server at http://127.0.0.1:8000/
-
 
 Use this command when you want to check the app in the Android Emulator.  <br>
 In this case the emulator server is located at http://10.0.2.2:8000/
