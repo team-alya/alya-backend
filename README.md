@@ -117,6 +117,7 @@ pip install google-cloud-vision
 
 1. Image of new version of backend is created
 2. Image is pushed to Docker hub
-3. Using Openshift commandline interface (CLI), new image is pushed from Docker hub to container with command "oc set image dc/<projects-name> <projects-name>=<new-image>"
+3. Using Openshift commandline interface (CLI), new image is pushed from Docker hub to container with command
+"oc set image dc/<projects-name> <projects-name>=<new-image>"
 4. Last step is to set environment variables
 5. Project runs in the container
