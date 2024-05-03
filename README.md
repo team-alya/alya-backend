@@ -35,7 +35,8 @@ python manage.py runserver 0.0.0.0:8000
 2. Log in 
 3. Click your username in top right corner
 4. Download Opestack RC File
-5. Use the credentials in RC File in your environment variables
+5. Use the credentials in RC File in your environment variables. Credentials are used in allas-conf.py
+![CSC allas](https://github.com/team-alya/alya-backend/assets/119333647/86d3480a-c57a-4258-a839-ef6e35e20f93)
 
 
 ## Create Vertex AI 
