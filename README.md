@@ -110,3 +110,13 @@ pip install google-cloud-vision
 
 > [!TIP]
 >  If there is no information available for a specific field (e.g., "brand"), you can leave the corresponding value field empty. However, do not uncheck any key (e.g., "brand") in the left column.
+
+## Deployment
+
+[Project](https://console-openshift-console.apps.2.rahti.csc.fi/topology/ns/arvolaskuri?view=graph) has been published using container technology. Project is published in CSC Rahti 2, where the backend and PostgreSQL is running in container environment. Image of the backend is pushed to container using developers personal Docker hub. Here are some steps to deploy image:
+
+1. Image of new version of backend is created
+2. Image is pushed to Docker hub
+3. Using Openshift commandline interface (CLI), new image is pushed from Docker hub to container with command "oc set image dc/<projects-name> <projects-name>=<new-image>"
+4. Last step is to set environment variables
+5. Project runs in the container
