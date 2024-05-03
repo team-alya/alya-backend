@@ -7,5 +7,7 @@ urlpatterns = [
     path('instructions', views.InstructionsJson.as_view(), name="instructions"),
     path('sendpic', views.ReceivePic.as_view(), name='picture'),
     path('askprice', views.AskPrice.as_view(), name='askprice'),
+    path('repair', views.Repair.as_view(), name='repair'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
