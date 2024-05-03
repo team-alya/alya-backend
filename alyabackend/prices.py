@@ -48,12 +48,19 @@ def price_detection(saved_pic, filled_form):
     # Convert the image content to base64-encoded string
     image_part = Part.from_image(VertexImage.from_bytes(image_content))
 
+    if filled_form.get('defects'):
+    # 'defects' key exists and it's not empty
+        defects = filled_form['defects']
+    else:
+        # 'defects' key does not exist or it's empty
+        defects = "None"
+
     # Prompt text for the Vertex AI
     prompt = f"""Description of the piece of furniture in the photo:\n\n
     The type of the furniture is {filled_form['type']}. The maker of the furniture is {filled_form['brand']} and its model is {filled_form['model']}.
     The color of the furniture is {filled_form['color']}. The approximate dimensions are {filled_form['dimensions']} in cm. 
-    The condition is {filled_form['condition']}. The age is {filled_form['age']} \n\n Give me only a price estimate for my piece of furniture, 
-    in the second-hand market based on this description and the photo. Pay close attention to the brand and model.
+    The condition is {filled_form['condition']}. The age is {filled_form['age']}. There are defects: {defects}.  \n\n Give me only a price estimate for my piece of furniture, 
+    in the second-hand market based on this description and the photo. Pay close attention to the brand and model and possible defects.
     The second-hand market is based in Finland and the price should match prices of similar items in finnish web-marketplaces. 
     Return 3 prices and 1 descriprion as a JSON object that has the fields highest_price, lowest_price, average_price and description.
     In description field explain on which criteria you gave estimated price.
@@ -77,35 +84,13 @@ def price_detection(saved_pic, filled_form):
             .replace("JSON\n", "", 1)
         )
 
-        # Convert the result to a dictionary
-        response = json.loads(result)
+        try:
+            response = json.loads(result)        
+            return response
+        except:
+            response = response_vertex.candidates[0].content.parts[0].text
+            return {"error":response}
 
-        # Check if dimensions is in the right form
-        if "dimensions" in response:
-            dimensions = response["dimensions"]
-            if not isinstance(dimensions, dict) or not {
-                "length",
-                "width",
-                "height",
-            }.issubset(dimensions.keys()):
-                logger.error("Invalid dimensions format.")
-                # Replace with default dimensions
-                response["dimensions"] = {"length": 0, "width": 0, "height": 0}
-
-        # Check if any field is empty or None
-        for key, value in response.items():
-            if not value:
-                response[key] = "Unknown"
-
-        # Log the response
-        logger.info(response)
-        # Return the response
-        return response
-
-    # Handle exceptions
-    except json.JSONDecodeError as e:
-        logger.error(f"An error occurred while decoding JSON: {str(e)}")
-        return {"error": "An error occurred while decoding JSON."}
     except Exception as e:
         logger.error(f"An unexpected error occurred: {str(e)}")
         return {"error": "An unexpected error occurred."}

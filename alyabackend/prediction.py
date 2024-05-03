@@ -82,13 +82,28 @@ def label_detection(uploaded_file):
 
         try:
             response = json.loads(result)
+            
+            # Check if dimensions is in the right form
+            if "dimensions" in response:
+                dimensions = response["dimensions"]
+                if not isinstance(dimensions, dict) or not {
+                    "length",
+                    "width",
+                    "height",
+                }.issubset(dimensions.keys()):
+                    logger.error("Invalid dimensions format.")
+                    # Replace with default dimensions
+                    response["dimensions"] = {"length": 0, "width": 0, "height": 0}
+
             # Check if any field is empty or None
             for key, value in response.items():
                 if not value:
                     response[key] = "Unknown"
         
             return response
+
         except:
+
             response = response_vertex.candidates[0].content.parts[0].text
             return {"error":response}
 

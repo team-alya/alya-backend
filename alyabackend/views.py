@@ -74,6 +74,7 @@ class AskPrice(APIView):
             "dimensions": request.data.get("dimensions"),
             "condition": request.data.get("condition"),
             "age": request.data.get("age"),
+            "defects": request.data.get("defects"),
         }
 
         # Serialize the incoming picture data
