@@ -76,6 +76,7 @@ class AskPrice(APIView):
             "condition": request.data.get("condition"),
             "age": request.data.get("age"),
             "defects": request.data.get("defects"),
+            "material": request.data.get("material"),
         }
 
         # Serialize the incoming picture data
@@ -107,9 +108,11 @@ class Repair(APIView):
             "brand": request.data.get("brand"),
             "model": request.data.get("model"),
             "color": request.data.get("color"),
-            #"dimensions": request.data.get("dimensions"),
+            "dimensions": request.data.get("dimensions"),
             "condition": request.data.get("condition"),
-            #"material": request.data.get("material")
+            "age": request.data.get("age"),
+            "defects": request.data.get("defects"),
+            "material": request.data.get("material"),
         }
 
         # Serialize the incoming picture data
@@ -121,7 +124,7 @@ class Repair(APIView):
             picture = serializer.validated_data["picture"]
 
             try:
-                # Perform price detection on the picture and furniture data
+                # Perform repairing instructions on the picture and furniture data
                 result = repairing_instructions(picture, filled_form)
                 # Return the result as JSON
                 return JsonResponse(result)
