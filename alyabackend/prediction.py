@@ -60,7 +60,7 @@ def label_detection(uploaded_file):
         (don't include cm in dimensions), age in number and condition (they values should start with a capital letter but they not). 
         Brand and model are very important, so please make sure to include them in your answer. 
         Provide this information in JSON string format which stays same format all requests. 
-        Include request_id in your response as a first field. If on the picture is not furniture, return an error message.
+        Include request_id in your response as a first field. If there is no furniture in the picture, return an error message.
         """
 
     # Process the response from Vertex AI
